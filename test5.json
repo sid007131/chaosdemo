@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "title": "To test chaos",
+  "description": "Most basic check before we begin all fine",
+  "steady-state-hypothesis": {
+    "title": "The website is working fine",
+    "probes": [
+      {
+        "type": "probe",
+        "name": "Website is up",
+        "tolerance": 204,
+        "provider": {
+          "type": "http",
+          "timeout": [
+            3,
+            5
+          ],
+          "url": "https://httpbin.org/forms/post",
+          "method": "GET"
+        }
+      }
+    ]
+  },
+  "method": [
+    {
+      "type": "probe",
+      "name": "The url should return 202",
+      "tolerance": 202,
+      "provider": {
+        "type": "http",
+        "url": "https://httpbin.org/status/202"
+      }
+    },
+    {
+      "type": "probe",
+      "name": "A json response received",
+      "tolerance": {
+        "type": "jsonpath",
+        "path": "$.slideshow.author",
+        "expect": [
+          "failed"
+        ],
+        "target": "body"
+      },
+      "provider": {
+        "type": "http",
+        "url": "https://httpbin.org/json"
+      }
+    }
+  ],
+  "rollbacks": []
+}
